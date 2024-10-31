@@ -9,12 +9,28 @@ import ru.t1.java.demo.model.Account;
 
 import java.math.BigDecimal;
 
+/**
+ * DTO (Data Transfer Object) для передачи данных о транзакции.
+ * Содержит информацию о сумме транзакции и связанном счете.
+ *
+ * @author ivanogor
+ * @version 1.0
+ * @since 30.10.2024
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TransactionDto {
+
+    /**
+     * Сумма транзакции.
+     */
     private BigDecimal amount;
+
+    /**
+     * Счет, связанный с транзакцией.
+     */
     private Account account;
 }

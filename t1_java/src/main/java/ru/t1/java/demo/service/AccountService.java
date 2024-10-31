@@ -50,8 +50,8 @@ public interface AccountService {
     /**
      * Обновляет информацию о банковском счете.
      *
+     * @param id идентификатор банковского счета
      * @param updatedAccountDto банковский счет с обновленными данными
-     * @param id идентификатор аккаунта
      * @return обновленный банковский счет
      */
     Account updateAccount(Long id, AccountDto updatedAccountDto);

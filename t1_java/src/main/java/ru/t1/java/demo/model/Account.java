@@ -48,6 +48,11 @@ public class Account extends AbstractPersistable<Long> {
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions;
 
+    /**
+     * Клиент, владеющий этим счетом.
+     * Это поле отображается на отношение "многие к одному" с сущностью Client.
+     * Счет связан с клиентом через столбец "client_id".
+     */
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;

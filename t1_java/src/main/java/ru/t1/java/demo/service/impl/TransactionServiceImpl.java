@@ -13,10 +13,21 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Реализация сервиса для работы с сущностью Transaction.
+ * Предоставляет методы для сохранения, получения, обновления и удаления транзакций.
+ *
+ * @author ivanogor
+ * @version 1.0
+ * @since 30.10.2024
+ */
 @Service
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
 
+    /**
+     * Репозиторий для работы с сущностью Transaction.
+     */
     private final TransactionRepository transactionRepository;
 
     @Override

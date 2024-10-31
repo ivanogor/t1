@@ -6,7 +6,6 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.exception.AccountNotFoundException;
 import ru.t1.java.demo.model.Account;
@@ -14,26 +13,41 @@ import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.util.AccountMapper;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Реализация сервиса для работы с сущностью Account.
+ * Предоставляет методы для сохранения, получения, обновления и удаления банковских счетов.
+ *
+ * @author ivanogor
+ * @version 1.0
+ * @since 30.10.2024
+ */
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class AccountServiceImpl implements AccountService {
 
+    /**
+     * Репозиторий для работы с сущностью Account.
+     */
     private final AccountRepository accountRepository;
 
+    /**
+     * Инициализация сервиса.
+     * Парсит JSON-файл и сохраняет полученные данные в базу данных.
+     */
     @PostConstruct
     void init() {
         try {
             List<Account> accounts = parseJson();
             accountRepository.saveAll(accounts);
-        } catch (IOException e){
+        } catch (IOException e) {
             log.error("Ошибка во время обработки записей", e);
         }
     }
