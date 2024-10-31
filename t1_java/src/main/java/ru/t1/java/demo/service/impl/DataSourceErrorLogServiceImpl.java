@@ -17,7 +17,6 @@ public class DataSourceErrorLogServiceImpl implements DataSourceErrorLogService 
 
     @Override
     public DataSourceErrorLog saveDataSourceErrorLog(DataSourceErrorLog dataSourceErrorLog) {
-        System.out.println("СЕРВИС РАБОТАЕТ!");
         return dataSourceErrorLogRepository.save(dataSourceErrorLog);
     }
 }
