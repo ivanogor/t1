@@ -17,14 +17,13 @@ import java.util.Arrays;
 public class DataSourceErrorAspect {
     private final DataSourceErrorLogService errorLogService;
 
-    @Pointcut("within(ru.t1.java.demo.service.impl.*)")
+    @Pointcut("within(ru.t1.java.demo.*)")
     public void loggingMethods() {
 
     }
 
     @AfterThrowing(pointcut = "loggingMethods()", throwing = "e")
     public void logDataSourceError(JoinPoint joinPoint, Throwable e) {
-        System.out.println("ОШИБКАОШИБКАОШИБКАОШИБКАОШИБКАОШИБКАОШИБКАОШИБКА!!");
         DataSourceErrorLog errorLog = DataSourceErrorLog.builder()
                 .stackTrace(Arrays.toString(e.getStackTrace()))
                 .message(e.getMessage())

@@ -49,11 +49,11 @@ public class AccountController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
-//        try {
+        try {
             accountService.deleteAccount(id);
             return ResponseEntity.ok().build();
-//        } catch (AccountNotFoundException e) {
-//            return ResponseEntity.notFound().build();
-//        }
+        } catch (AccountNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

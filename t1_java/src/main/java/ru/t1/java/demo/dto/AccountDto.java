@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountDto {
-    private Long id;
     private AccountType accountType;
     private BigDecimal balance;
 }
