@@ -27,6 +27,9 @@ public class DataSourceErrorLogServiceImpl implements DataSourceErrorLogService 
 
     @Override
     public DataSourceErrorLog saveDataSourceErrorLog(DataSourceErrorLog dataSourceErrorLog) {
-        return dataSourceErrorLogRepository.save(dataSourceErrorLog);
+        log.info("Сохранение лога ошибки источника данных: начато");
+        DataSourceErrorLog savedLog = dataSourceErrorLogRepository.save(dataSourceErrorLog);
+        log.info("Сохранение лога ошибки источника данных: завершено, ID: {}", savedLog.getId());
+        return savedLog;
     }
 }

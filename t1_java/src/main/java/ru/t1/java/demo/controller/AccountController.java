@@ -37,6 +37,7 @@ public class AccountController {
      */
     @PostMapping
     public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto accountDto) {
+        log.info("Получен запрос на создание счета: {}", accountDto);
         AccountDto createdAccount = accountService.createAccount(accountDto);
         return ResponseEntity.ok(createdAccount);
     }
@@ -49,6 +50,7 @@ public class AccountController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<AccountDto> getAccountById(@PathVariable Long id) {
+        log.info("Получен запрос на получение счета по ID: {}", id);
         try {
             AccountDto foundAccount = accountService.getAccount(id);
             return ResponseEntity.ok(foundAccount);
@@ -64,6 +66,7 @@ public class AccountController {
      */
     @GetMapping
     public ResponseEntity<List<AccountDto>> getAllAccounts() {
+        log.info("Получен запрос на получение всех счетов");
         List<AccountDto> accounts = accountService.getAccounts();
         return ResponseEntity.ok(accounts);
     }
@@ -77,6 +80,7 @@ public class AccountController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestBody AccountDto accountDto) {
+        log.info("Получен запрос на обновление счета с ID {}: {}", id, accountDto);
         try {
             AccountDto updatedAccount = accountService.updateAccount(id, accountDto);
             return ResponseEntity.ok(updatedAccount);
@@ -93,6 +97,7 @@ public class AccountController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
+        log.info("Получен запрос на удаление счета с ID: {}", id);
         try {
             accountService.deleteAccount(id);
             return ResponseEntity.ok().build();

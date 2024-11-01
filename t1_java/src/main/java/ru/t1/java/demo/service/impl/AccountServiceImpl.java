@@ -45,73 +45,100 @@ public class AccountServiceImpl implements AccountService {
     @PostConstruct
     void init() {
         try {
+            log.info("Инициализация сервиса: начато чтение и сохранение данных из JSON");
             List<Account> accounts = parseJson();
             accountRepository.saveAll(accounts);
+            log.info("Инициализация сервиса: данные успешно сохранены");
         } catch (IOException e) {
-            log.error("Ошибка во время обработки записей", e);
+            log.error("Ошибка во время инициализации сервиса", e);
         }
     }
 
     @Override
     public AccountDto createAccount(AccountDto accountDto) {
+        log.info("Создание нового счета: начато");
         Account accountToCreate = AccountMapper.toEntity(accountDto);
         Account createdAccount = accountRepository.save(accountToCreate);
+        log.info("Создание нового счета: завершено, ID: {}", createdAccount.getId());
         return AccountMapper.toDto(createdAccount);
     }
 
     @Override
     public AccountDto getAccount(Long id) {
+        log.info("Получение счета по ID: {}", id);
         Optional<Account> optionalFoundAccount = accountRepository.findById(id);
         if (optionalFoundAccount.isEmpty()) {
+            logAccountNotFound(id);
             throw new AccountNotFoundException(id);
         }
         Account foundAccount = optionalFoundAccount.get();
+        log.info("Счет с ID {} успешно получен", id);
         return AccountMapper.toDto(foundAccount);
     }
 
     @Override
     public List<AccountDto> getAccounts() {
-        return accountRepository.findAll()
+        log.info("Получение всех счетов: начато");
+        List<AccountDto> accounts = accountRepository.findAll()
                 .stream()
                 .map(AccountMapper::toDto)
                 .toList();
+        log.info("Получение всех счетов: завершено, найдено {} счетов", accounts.size());
+        return accounts;
     }
 
     @Override
     public void deleteAccount(Long id) {
-        if(!accountRepository.existsById(id)){
+        log.info("Удаление счета по ID: {}", id);
+        if (!accountRepository.existsById(id)) {
+            logAccountNotFound(id);
             throw new AccountNotFoundException(id);
         }
         accountRepository.deleteById(id);
+        log.info("Счет с ID {} успешно удален", id);
     }
 
     @Override
     public AccountDto updateAccount(Long id, AccountDto updatedAccountDto) {
-        Account accountToUpdate = AccountMapper.toEntity(updatedAccountDto);
+        log.info("Обновление счета по ID: {}", id);
         Optional<Account> existingOptionalAccount = accountRepository.findById(id);
-        if(existingOptionalAccount.isEmpty()) {
+        if (existingOptionalAccount.isEmpty()) {
+            logAccountNotFound(id);
             throw new AccountNotFoundException(id);
         }
         Account existingAccount = existingOptionalAccount.get();
-        existingAccount.setAccountType(accountToUpdate.getAccountType());
-        existingAccount.setBalance(accountToUpdate.getBalance());
+        existingAccount.setAccountType(updatedAccountDto.getAccountType());
+        existingAccount.setBalance(updatedAccountDto.getBalance());
 
         Account updatedAccount = accountRepository.save(existingAccount);
-
+        log.info("Счет с ID {} успешно обновлен", id);
         return AccountMapper.toDto(updatedAccount);
     }
 
     @Override
     public List<Account> parseJson() throws IOException {
+        log.info("Парсинг JSON-файла: начато");
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("ACCOUNT_DATA.json");
         if (inputStream == null) {
+            log.error("Файл ACCOUNT_DATA.json не найден");
             throw new IOException("Файл ACCOUNT_DATA.json не найден");
         }
         AccountDto[] accounts = mapper.readValue(inputStream, AccountDto[].class);
-        return Arrays.stream(accounts)
+        List<Account> accountList = Arrays.stream(accounts)
                 .map(AccountMapper::toEntity)
                 .toList();
+        log.info("Парсинг JSON-файла: завершено, найдено {} счетов", accountList.size());
+        return accountList;
+    }
+
+    /**
+     * Логирует сообщение о том, что счет с указанным ID не найден.
+     *
+     * @param id ID счета, который не был найден.
+     */
+    private void logAccountNotFound(Long id) {
+        log.warn("Счет с ID {} не найден", id);
     }
 }

@@ -37,6 +37,7 @@ public class TransactionController {
      */
     @PostMapping
     public ResponseEntity<TransactionDto> createTransaction(@RequestBody TransactionDto transactionDto) {
+        log.info("Получен запрос на создание транзакции: {}", transactionDto);
         TransactionDto createdTransaction = transactionService.createTransaction(transactionDto);
         return ResponseEntity.ok(createdTransaction);
     }
@@ -49,6 +50,7 @@ public class TransactionController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<TransactionDto> getTransactionById(@PathVariable Long id) {
+        log.info("Получен запрос на получение транзакции по ID: {}", id);
         try {
             TransactionDto foundTransaction = transactionService.getTransaction(id);
             return ResponseEntity.ok(foundTransaction);
@@ -64,6 +66,7 @@ public class TransactionController {
      */
     @GetMapping
     public ResponseEntity<List<TransactionDto>> getAllTransactions() {
+        log.info("Получен запрос на получение всех транзакций");
         List<TransactionDto> transactions = transactionService.getTransactions();
         return ResponseEntity.ok(transactions);
     }
@@ -77,6 +80,7 @@ public class TransactionController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<TransactionDto> updateTransaction(@PathVariable Long id, @RequestBody TransactionDto transactionDto) {
+        log.info("Получен запрос на обновление транзакции с ID {}: {}", id, transactionDto);
         try {
             TransactionDto updatedTransaction = transactionService.updateTransaction(id, transactionDto);
             return ResponseEntity.ok(updatedTransaction);
@@ -93,6 +97,7 @@ public class TransactionController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
+        log.info("Получен запрос на удаление транзакции с ID: {}", id);
         try {
             transactionService.deleteTransaction(id);
             return ResponseEntity.ok().build();
