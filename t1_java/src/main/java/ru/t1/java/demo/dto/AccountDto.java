@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.t1.java.demo.model.AccountType;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -22,7 +23,12 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AccountDto {
+public class AccountDto implements Serializable {
+
+    /**
+     * Идентификатор транзакции.
+     */
+    private Long id;
 
     /**
      * Тип банковского счета.

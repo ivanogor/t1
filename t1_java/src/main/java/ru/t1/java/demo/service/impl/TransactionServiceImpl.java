@@ -9,7 +9,6 @@ import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.TransactionService;
 import ru.t1.java.demo.util.TransactionMapper;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,19 +30,28 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
 
     @Override
-    public Transaction createTransaction(TransactionDto transactionDto) {
+    public TransactionDto createTransaction(TransactionDto transactionDto) {
         Transaction transaction = TransactionMapper.toEntity(transactionDto);
-        return transactionRepository.save(transaction);
+        Transaction createdTransaction = transactionRepository.save(transaction);
+        return TransactionMapper.toDto(createdTransaction);
     }
 
     @Override
-    public Optional<Transaction> getTransaction(Long id) {
-        return transactionRepository.findById(id);
+    public TransactionDto getTransaction(Long id) {
+        Optional<Transaction> optionalFoundTransaction = transactionRepository.findById(id);
+        if (optionalFoundTransaction.isEmpty()) {
+            throw new TransactionNotFoundException(id);
+        }
+        Transaction foundTransaction = optionalFoundTransaction.get();
+        return TransactionMapper.toDto(foundTransaction);
     }
 
     @Override
-    public List<Transaction> getTransactions() {
-        return transactionRepository.findAll();
+    public List<TransactionDto> getTransactions() {
+        return transactionRepository.findAll()
+                .stream()
+                .map(TransactionMapper::toDto)
+                .toList();
     }
 
     @Override
@@ -55,16 +63,16 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction updateTransaction(Long id, TransactionDto transactionDto) {
-        Transaction transaction = TransactionMapper.toEntity(transactionDto);
+    public TransactionDto updateTransaction(Long id, TransactionDto transactionDto) {
+        Transaction transactionToUpdate = TransactionMapper.toEntity(transactionDto);
         Optional<Transaction> existingOptionalTransaction = transactionRepository.findById(id);
         if(existingOptionalTransaction.isEmpty()) {
             throw new TransactionNotFoundException(id);
         }
         Transaction existingTransaction = existingOptionalTransaction.get();
-        existingTransaction.setAmount(transaction.getAmount());
-        existingTransaction.setUpdatedAt(LocalDateTime.now());
+        existingTransaction.setAmount(transactionToUpdate.getAmount());
 
-        return transactionRepository.save(existingTransaction);
+        Transaction updatedTransaction = transactionRepository.save(existingTransaction);
+        return TransactionMapper.toDto(updatedTransaction);
     }
 }

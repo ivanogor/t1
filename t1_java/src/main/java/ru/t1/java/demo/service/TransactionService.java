@@ -1,10 +1,8 @@
 package ru.t1.java.demo.service;
 
 import ru.t1.java.demo.dto.TransactionDto;
-import ru.t1.java.demo.model.Transaction;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Интерфейс сервиса для работы с сущностью Transaction.
@@ -22,7 +20,7 @@ public interface TransactionService {
      * @param transactionDto транзакция для сохранения
      * @return сохраненная транзакция
      */
-    Transaction createTransaction(TransactionDto transactionDto);
+    TransactionDto createTransaction(TransactionDto transactionDto);
 
     /**
      * Получает транзакцию по её идентификатору.
@@ -30,14 +28,14 @@ public interface TransactionService {
      * @param id идентификатор транзакции
      * @return Optional, содержащий транзакцию, если она найдена, иначе пустой Optional
      */
-    Optional<Transaction> getTransaction(Long id);
+    TransactionDto getTransaction(Long id);
 
     /**
      * Получает список всех транзакций в системе.
      *
      * @return список всех транзакций
      */
-    List<Transaction> getTransactions();
+    List<TransactionDto> getTransactions();
 
     /**
      * Удаляет транзакцию по её идентификатору.
@@ -53,5 +51,5 @@ public interface TransactionService {
      * @param id идентификатор транзакции
      * @return обновленная транзакция
      */
-    Transaction updateTransaction(Long id, TransactionDto transactionDto);
+    TransactionDto updateTransaction(Long id, TransactionDto transactionDto);
 }

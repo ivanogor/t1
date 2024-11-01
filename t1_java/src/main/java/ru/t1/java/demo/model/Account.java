@@ -2,9 +2,12 @@ package ru.t1.java.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -47,6 +50,25 @@ public class Account extends AbstractPersistable<Long> {
      */
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions;
+
+    /**
+     * Дата и время создания транзакции.
+     * Это поле автоматически заполняется при создании записи.
+     * Отображается на столбец "created_at" в базе данных.
+     */
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    /**
+     * Дата и время последнего обновления транзакции.
+     * Это поле автоматически обновляется при изменении записи.
+     * Отображается на столбец "updated_at" в базе данных.
+     */
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
 
     /**
      * Клиент, владеющий этим счетом.

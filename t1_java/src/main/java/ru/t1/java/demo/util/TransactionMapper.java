@@ -13,6 +13,7 @@ public class TransactionMapper {
 
     public static TransactionDto toDto(Transaction transaction) {
         return TransactionDto.builder()
+                .id(transaction.getId())
                 .account(transaction.getAccount())
                 .amount(transaction.getAmount())
                 .build();

@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.exception.AccountNotFoundException;
-import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.service.AccountService;
 
 import java.util.List;
@@ -37,8 +36,8 @@ public class AccountController {
      * @return Созданный счет.
      */
     @PostMapping
-    public ResponseEntity<Account> createAccount(@RequestBody AccountDto accountDto) {
-        Account createdAccount = accountService.createAccount(accountDto);
+    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto accountDto) {
+        AccountDto createdAccount = accountService.createAccount(accountDto);
         return ResponseEntity.ok(createdAccount);
     }
 
@@ -49,10 +48,13 @@ public class AccountController {
      * @return Найденный счет или 404 ошибка, если счет не найден.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Account> getAccountById(@PathVariable Long id) {
-        return accountService.getAccount(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<AccountDto> getAccountById(@PathVariable Long id) {
+        try {
+            AccountDto foundAccount = accountService.getAccount(id);
+            return ResponseEntity.ok(foundAccount);
+        }catch (AccountNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /**
@@ -61,8 +63,8 @@ public class AccountController {
      * @return Список всех счетов.
      */
     @GetMapping
-    public ResponseEntity<List<Account>> getAllAccounts() {
-        List<Account> accounts = accountService.getAccounts();
+    public ResponseEntity<List<AccountDto>> getAllAccounts() {
+        List<AccountDto> accounts = accountService.getAccounts();
         return ResponseEntity.ok(accounts);
     }
 
@@ -74,9 +76,9 @@ public class AccountController {
      * @return Обновленный счет или 404 ошибка, если счет не найден.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Account> updateAccount(@PathVariable Long id, @RequestBody AccountDto accountDto) {
+    public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestBody AccountDto accountDto) {
         try {
-            Account updatedAccount = accountService.updateAccount(id, accountDto);
+            AccountDto updatedAccount = accountService.updateAccount(id, accountDto);
             return ResponseEntity.ok(updatedAccount);
         } catch (AccountNotFoundException e) {
             return ResponseEntity.notFound().build();

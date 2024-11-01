@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.exception.TransactionNotFoundException;
-import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.service.TransactionService;
 
 import java.util.List;
@@ -37,8 +36,8 @@ public class TransactionController {
      * @return Созданная транзакция.
      */
     @PostMapping
-    public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionDto transactionDto) {
-        Transaction createdTransaction = transactionService.createTransaction(transactionDto);
+    public ResponseEntity<TransactionDto> createTransaction(@RequestBody TransactionDto transactionDto) {
+        TransactionDto createdTransaction = transactionService.createTransaction(transactionDto);
         return ResponseEntity.ok(createdTransaction);
     }
 
@@ -49,10 +48,13 @@ public class TransactionController {
      * @return Найденная транзакция или 404 ошибка, если транзакция не найдена.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Transaction> getTransactionById(@PathVariable Long id) {
-        return transactionService.getTransaction(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<TransactionDto> getTransactionById(@PathVariable Long id) {
+        try {
+            TransactionDto foundTransaction = transactionService.getTransaction(id);
+            return ResponseEntity.ok(foundTransaction);
+        } catch (TransactionNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /**
@@ -61,8 +63,8 @@ public class TransactionController {
      * @return Список всех транзакций.
      */
     @GetMapping
-    public ResponseEntity<List<Transaction>> getAllTransactions() {
-        List<Transaction> transactions = transactionService.getTransactions();
+    public ResponseEntity<List<TransactionDto>> getAllTransactions() {
+        List<TransactionDto> transactions = transactionService.getTransactions();
         return ResponseEntity.ok(transactions);
     }
 
@@ -74,9 +76,9 @@ public class TransactionController {
      * @return Обновленная транзакция или 404 ошибка, если транзакция не найдена.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long id, @RequestBody TransactionDto transactionDto) {
+    public ResponseEntity<TransactionDto> updateTransaction(@PathVariable Long id, @RequestBody TransactionDto transactionDto) {
         try {
-            Transaction updatedTransaction = transactionService.updateTransaction(id, transactionDto);
+            TransactionDto updatedTransaction = transactionService.updateTransaction(id, transactionDto);
             return ResponseEntity.ok(updatedTransaction);
         } catch (TransactionNotFoundException e) {
             return ResponseEntity.notFound().build();

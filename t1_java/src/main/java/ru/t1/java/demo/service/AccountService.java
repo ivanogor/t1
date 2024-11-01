@@ -5,7 +5,6 @@ import ru.t1.java.demo.model.Account;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Интерфейс сервиса для работы с сущностью Account.
@@ -23,7 +22,7 @@ public interface AccountService {
      * @param accountDto банковский счет для сохранения
      * @return сохраненный банковский счет
      */
-    Account createAccount(AccountDto accountDto);
+    AccountDto createAccount(AccountDto accountDto);
 
     /**
      * Получает банковский счет по его идентификатору.
@@ -31,14 +30,14 @@ public interface AccountService {
      * @param id идентификатор банковского счета
      * @return Optional, содержащий банковский счет, если он найден, иначе пустой Optional
      */
-    Optional<Account> getAccount(Long id);
+    AccountDto getAccount(Long id);
 
     /**
      * Получает список всех банковских счетов в системе.
      *
      * @return список всех банковских счетов
      */
-    List<Account> getAccounts();
+    List<AccountDto> getAccounts();
 
     /**
      * Удаляет банковский счет по его идентификатору.
@@ -54,7 +53,7 @@ public interface AccountService {
      * @param updatedAccountDto банковский счет с обновленными данными
      * @return обновленный банковский счет
      */
-    Account updateAccount(Long id, AccountDto updatedAccountDto);
+    AccountDto updateAccount(Long id, AccountDto updatedAccountDto);
 
     /**
      * Парсит JSON-файл и преобразует его содержимое в список сущностей Account.

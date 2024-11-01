@@ -53,19 +53,28 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account createAccount(AccountDto accountDto) {
+    public AccountDto createAccount(AccountDto accountDto) {
         Account accountToCreate = AccountMapper.toEntity(accountDto);
-        return accountRepository.save(accountToCreate);
+        Account createdAccount = accountRepository.save(accountToCreate);
+        return AccountMapper.toDto(createdAccount);
     }
 
     @Override
-    public Optional<Account> getAccount(Long id) {
-        return accountRepository.findById(id);
+    public AccountDto getAccount(Long id) {
+        Optional<Account> optionalFoundAccount = accountRepository.findById(id);
+        if (optionalFoundAccount.isEmpty()) {
+            throw new AccountNotFoundException(id);
+        }
+        Account foundAccount = optionalFoundAccount.get();
+        return AccountMapper.toDto(foundAccount);
     }
 
     @Override
-    public List<Account> getAccounts() {
-        return accountRepository.findAll();
+    public List<AccountDto> getAccounts() {
+        return accountRepository.findAll()
+                .stream()
+                .map(AccountMapper::toDto)
+                .toList();
     }
 
     @Override
@@ -77,17 +86,19 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account updateAccount(Long id, AccountDto updatedAccountDto) {
-        Account updatedAccount = AccountMapper.toEntity(updatedAccountDto);
+    public AccountDto updateAccount(Long id, AccountDto updatedAccountDto) {
+        Account accountToUpdate = AccountMapper.toEntity(updatedAccountDto);
         Optional<Account> existingOptionalAccount = accountRepository.findById(id);
         if(existingOptionalAccount.isEmpty()) {
             throw new AccountNotFoundException(id);
         }
         Account existingAccount = existingOptionalAccount.get();
-        existingAccount.setAccountType(updatedAccount.getAccountType());
-        existingAccount.setBalance(updatedAccount.getBalance());
+        existingAccount.setAccountType(accountToUpdate.getAccountType());
+        existingAccount.setBalance(accountToUpdate.getBalance());
 
-        return accountRepository.save(existingAccount);
+        Account updatedAccount = accountRepository.save(existingAccount);
+
+        return AccountMapper.toDto(updatedAccount);
     }
 
     @Override
