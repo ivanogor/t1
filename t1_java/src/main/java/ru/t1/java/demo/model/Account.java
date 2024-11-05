@@ -78,4 +78,5 @@ public class Account extends AbstractPersistable<Long> {
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
+
 }

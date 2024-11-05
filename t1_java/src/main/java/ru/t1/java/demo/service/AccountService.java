@@ -62,4 +62,5 @@ public interface AccountService {
      * @throws IOException если произошла ошибка при чтении или парсинге JSON-файла
      */
     List<Account> parseJson() throws IOException;
+
 }

@@ -14,4 +14,5 @@ import ru.t1.java.demo.model.Account;
  */
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
+
 }

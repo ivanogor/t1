@@ -32,4 +32,5 @@ public class DataSourceErrorLogServiceImpl implements DataSourceErrorLogService 
         log.info("Сохранение лога ошибки источника данных: завершено, ID: {}", savedLog.getId());
         return savedLog;
     }
+
 }

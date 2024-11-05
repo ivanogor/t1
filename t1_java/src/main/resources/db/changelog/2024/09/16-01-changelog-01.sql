@@ -47,4 +47,5 @@ CREATE TABLE data_source_error_logs (
                                         stack_trace TEXT NOT NULL,
                                         message TEXT NOT NULL,
                                         method_signature TEXT NOT NULL
+
 );

@@ -18,4 +18,5 @@ public class TransactionMapper {
                 .amount(transaction.getAmount())
                 .build();
     }
+
 }

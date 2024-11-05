@@ -96,6 +96,7 @@ public class AccountServiceImpl implements AccountService {
         }
         accountRepository.deleteById(id);
         log.info("Счет с ID {} успешно удален", id);
+
     }
 
     @Override

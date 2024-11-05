@@ -48,4 +48,5 @@ public class ClientServiceImpl implements ClientService {
                 .map(ClientMapper::toEntity)
                 .collect(Collectors.toList());
     }
+
 }

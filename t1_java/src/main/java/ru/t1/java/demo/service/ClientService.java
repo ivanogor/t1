@@ -22,4 +22,5 @@ public interface ClientService {
      * @throws IOException если произошла ошибка при чтении или парсинге JSON-файла
      */
     List<Client> parseJson() throws IOException;
+
 }

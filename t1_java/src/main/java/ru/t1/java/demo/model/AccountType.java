@@ -17,4 +17,5 @@ public enum AccountType {
      * Дебетовый счет.
      */
     DEBIT
+
 }
