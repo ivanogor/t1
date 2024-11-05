@@ -52,4 +52,5 @@ public interface TransactionService {
      * @return обновленная транзакция
      */
     TransactionDto updateTransaction(Long id, TransactionDto transactionDto);
+
 }

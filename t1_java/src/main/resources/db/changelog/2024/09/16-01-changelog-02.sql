@@ -8,3 +8,4 @@ ALTER TABLE client
 ALTER TABLE client
     ADD middle_name VARCHAR(255);
 
+

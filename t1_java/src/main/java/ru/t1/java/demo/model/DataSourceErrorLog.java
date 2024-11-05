@@ -43,4 +43,5 @@ public class DataSourceErrorLog extends AbstractPersistable<Long> {
      */
     @Column(name = "method_signature", columnDefinition = "TEXT")
     private String methodSignature;
+
 }

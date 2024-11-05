@@ -59,4 +59,5 @@ public class Transaction extends AbstractPersistable<Long> {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
 }

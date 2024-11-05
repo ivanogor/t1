@@ -19,4 +19,5 @@ public interface DataSourceErrorLogService {
      * @return сохраненный журнал ошибок источника данных
      */
     DataSourceErrorLog saveDataSourceErrorLog(DataSourceErrorLog dataSourceErrorLog);
+
 }

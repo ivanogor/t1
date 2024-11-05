@@ -39,4 +39,5 @@ public class AccountDto implements Serializable {
      * Баланс счета.
      */
     private BigDecimal balance;
+
 }

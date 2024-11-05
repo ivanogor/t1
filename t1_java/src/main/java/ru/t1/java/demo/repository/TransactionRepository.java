@@ -14,4 +14,5 @@ import ru.t1.java.demo.model.Transaction;
  */
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+
 }

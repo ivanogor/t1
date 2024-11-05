@@ -99,4 +99,5 @@ public class TransactionServiceImpl implements TransactionService {
     private void logTransactionNotFound(Long id) {
         log.warn("Транзакция с ID {} не найдена", id);
     }
+
 }

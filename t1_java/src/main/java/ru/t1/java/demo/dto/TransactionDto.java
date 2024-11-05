@@ -39,4 +39,5 @@ public class TransactionDto implements Serializable {
      * Счет, связанный с транзакцией.
      */
     private Account account;
+
 }

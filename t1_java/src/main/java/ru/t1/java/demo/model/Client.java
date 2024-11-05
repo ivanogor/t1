@@ -26,4 +26,5 @@ public class Client extends AbstractPersistable<Long> {
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Account> account;
+
 }
