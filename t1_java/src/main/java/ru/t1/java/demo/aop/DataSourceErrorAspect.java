@@ -5,11 +5,13 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.model.DataSourceErrorLog;
 import ru.t1.java.demo.service.DataSourceErrorLogService;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 /**
  * Аспект для логирования ошибок, связанных с источниками данных.
@@ -25,6 +27,7 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class DataSourceErrorAspect {
 
+    private final KafkaTemplate<String, String> kafkaTemplate;
     /**
      * Сервис, отвечающий за сохранение логов ошибок, связанных с источниками данных.
      */
@@ -51,6 +54,18 @@ public class DataSourceErrorAspect {
                 .message(e.getMessage())
                 .methodSignature(joinPoint.getSignature().toLongString())
                 .build();
+
+        String errorMessage = "Error type: DATA_SOURCE, Message: " + errorLog.toString();
+        String key = UUID.randomUUID().toString();
+
+        try {
+            kafkaTemplate.send("t1_demo_metrics", key, errorMessage);
+        } catch (Exception ex){
+            saveErrorLogToDataBase(errorLog);
+        }
+    }
+
+    private void saveErrorLogToDataBase(DataSourceErrorLog errorLog) {
         errorLogService.saveDataSourceErrorLog(errorLog);
     }
 }
