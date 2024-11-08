@@ -6,6 +6,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.exception.AccountNotFoundException;
 import ru.t1.java.demo.model.Account;
@@ -39,6 +40,11 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
 
     /**
+     * Маппер для преобразования между DTO и сущностью Account.
+     */
+    private final AccountMapper accountMapper;
+
+    /**
      * Инициализация сервиса.
      * Парсит JSON-файл и сохраняет полученные данные в базу данных.
      */
@@ -55,12 +61,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public AccountDto createAccount(AccountDto accountDto) {
         log.info("Создание нового счета: начато");
-        Account accountToCreate = AccountMapper.toEntity(accountDto);
+        Account accountToCreate = accountMapper.toEntity(accountDto);
         Account createdAccount = accountRepository.save(accountToCreate);
         log.info("Создание нового счета: завершено, ID: {}", createdAccount.getId());
-        return AccountMapper.toDto(createdAccount);
+        return accountMapper.toDto(createdAccount);
     }
 
     @Override
@@ -73,7 +80,7 @@ public class AccountServiceImpl implements AccountService {
         }
         Account foundAccount = optionalFoundAccount.get();
         log.info("Счет с ID {} успешно получен", id);
-        return AccountMapper.toDto(foundAccount);
+        return accountMapper.toDto(foundAccount);
     }
 
     @Override
@@ -81,13 +88,14 @@ public class AccountServiceImpl implements AccountService {
         log.info("Получение всех счетов: начато");
         List<AccountDto> accounts = accountRepository.findAll()
                 .stream()
-                .map(AccountMapper::toDto)
+                .map(accountMapper::toDto)
                 .toList();
         log.info("Получение всех счетов: завершено, найдено {} счетов", accounts.size());
         return accounts;
     }
 
     @Override
+    @Transactional
     public void deleteAccount(Long id) {
         log.info("Удаление счета по ID: {}", id);
         if (!accountRepository.existsById(id)) {
@@ -99,6 +107,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public AccountDto updateAccount(Long id, AccountDto updatedAccountDto) {
         log.info("Обновление счета по ID: {}", id);
         Optional<Account> existingOptionalAccount = accountRepository.findById(id);
@@ -112,7 +121,7 @@ public class AccountServiceImpl implements AccountService {
 
         Account updatedAccount = accountRepository.save(existingAccount);
         log.info("Счет с ID {} успешно обновлен", id);
-        return AccountMapper.toDto(updatedAccount);
+        return accountMapper.toDto(updatedAccount);
     }
 
     @Override
@@ -127,7 +136,7 @@ public class AccountServiceImpl implements AccountService {
         }
         AccountDto[] accounts = mapper.readValue(inputStream, AccountDto[].class);
         List<Account> accountList = Arrays.stream(accounts)
-                .map(AccountMapper::toEntity)
+                .map(accountMapper::toEntity)
                 .toList();
         log.info("Парсинг JSON-файла: завершено, найдено {} счетов", accountList.size());
         return accountList;

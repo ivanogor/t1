@@ -9,6 +9,15 @@ spring:
   liquibase:
     enabled: true
     change-log: db/changelog/db.changelog-master.xml
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: t1-demo-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
 
 logging:
   level:
@@ -17,3 +26,7 @@ logging:
 
 t1:
   scan-path: ru.t1.java.demo
+  kafka:
+    topic:
+      account_registration: t1_demo_accounts
+      transactions_registration: t1_demo_transactions

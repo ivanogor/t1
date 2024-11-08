@@ -12,11 +12,11 @@ import java.math.BigDecimal;
 
 /**
  * DTO (Data Transfer Object) для передачи данных о банковском счете.
- * Содержит информацию о типе счета и его балансе.
+ * Содержит информацию о типе счета, его балансе и идентификаторе клиента.
  *
  * @author ivanogor
- * @version 1.0
- * @since 30.10.2024
+ * @version 2.0
+ * @since 7.11.2024
  */
 @Data
 @AllArgsConstructor
@@ -26,7 +26,7 @@ import java.math.BigDecimal;
 public class AccountDto implements Serializable {
 
     /**
-     * Идентификатор транзакции.
+     * Идентификатор счета.
      */
     private Long id;
 
@@ -39,4 +39,9 @@ public class AccountDto implements Serializable {
      * Баланс счета.
      */
     private BigDecimal balance;
+
+    /**
+     * Идентификатор клиента, которому принадлежит счет.
+     */
+    private Long clientId;
 }
