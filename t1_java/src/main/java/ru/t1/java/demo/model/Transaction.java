@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Представляет сущность транзакции в системе.
@@ -26,6 +27,9 @@ import java.time.LocalDateTime;
 @Table(name = "transactions")
 public class Transaction extends AbstractPersistable<Long> {
 
+    @Builder.Default
+    @Column(name = "transaction_id", nullable = false, unique = true)
+    private UUID transactionId = UUID.randomUUID();
     /**
      * Сумма транзакции.
      * Это поле отображается на столбец "amount" в базе данных с точностью 19 и масштабом 2.
@@ -59,4 +63,8 @@ public class Transaction extends AbstractPersistable<Long> {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
+    @Column(name = "transaction_status")
+    @Enumerated(EnumType.STRING)
+    private TransactionStatus transactionStatus;
 }

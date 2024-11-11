@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.t1.java.demo.model.TransactionStatus;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * DTO (Data Transfer Object) для передачи данных о транзакции.
@@ -38,4 +40,9 @@ public class TransactionDto implements Serializable {
      * Счет, связанный с транзакцией.
      */
     private Long accountId;
+
+    private TransactionStatus transactionStatus;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

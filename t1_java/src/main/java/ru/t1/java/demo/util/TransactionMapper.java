@@ -32,6 +32,9 @@ public class TransactionMapper {
                 .id(transaction.getId())
                 .accountId(accountId)
                 .amount(transaction.getAmount())
+                .transactionStatus(transaction.getTransactionStatus())
+                .createdAt(transaction.getCreatedAt())
+                .updatedAt(transaction.getUpdatedAt())
                 .build();
     }
 }

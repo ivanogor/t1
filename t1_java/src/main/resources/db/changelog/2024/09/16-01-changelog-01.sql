@@ -48,3 +48,11 @@ CREATE TABLE data_source_error_logs (
                                         message TEXT NOT NULL,
                                         method_signature TEXT NOT NULL
 );
+
+-- changeset ivanogor:1726476397331-9
+ALTER TABLE transactions
+ADD COLUMN transaction_status VARCHAR(255) NOT NULL,
+ADD COLUMN transaction_id UUID NOT NULL UNIQUE;
+
+-- changeset ivanogor:1726476397331-9
+ALTER TABLE
