@@ -3,7 +3,6 @@ package ru.t1.java.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.math.BigDecimal;
@@ -30,6 +29,7 @@ public class Transaction extends AbstractPersistable<Long> {
     @Builder.Default
     @Column(name = "transaction_id", nullable = false, unique = true)
     private UUID transactionId = UUID.randomUUID();
+
     /**
      * Сумма транзакции.
      * Это поле отображается на столбец "amount" в базе данных с точностью 19 и масштабом 2.
@@ -45,15 +45,6 @@ public class Transaction extends AbstractPersistable<Long> {
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
-
-    /**
-     * Дата и время последнего обновления транзакции.
-     * Это поле автоматически обновляется при изменении записи.
-     * Отображается на столбец "updated_at" в базе данных.
-     */
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 
     /**
      * Связь с банковским счетом, к которому относится транзакция.

@@ -12,7 +12,9 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import ru.t1.java.demo.dto.AccountDto;
+import ru.t1.java.demo.dto.TransactionAcceptedMessageDto;
 import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.dto.TransactionResultMessageDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -119,5 +121,37 @@ public class KafkaConsumerConfig {
     public ConcurrentKafkaListenerContainerFactory<String, TransactionDto> kafkaTransactionalListenerContainerFactory(
             ConsumerFactory<String, TransactionDto> consumerTransactionalFactory) {
         return kafkaListenerContainerFactory(consumerTransactionalFactory);
+    }
+
+    /**
+     * Создает фабрику потребителей Kafka для обработки сообщений типа {@link TransactionResultMessageDto}.
+     *
+     * @return Фабрика потребителей Kafka для {@link TransactionResultMessageDto}.
+     */
+    @Bean
+    public ConsumerFactory<String, TransactionResultMessageDto> kafkaTransactionResultMessageDtoConsumerFactory() {
+        return consumerFactory(TransactionResultMessageDto.class);
+    }
+
+    /**
+     * Создает фабрику слушателей Kafka для обработки сообщений типа {@link TransactionResultMessageDto}.
+     *
+     * @param kafkaTransactionResultMessageDtoConsumerFactory Фабрика потребителей Kafka для {@link TransactionResultMessageDto}.
+     * @return Фабрика слушателей Kafka для {@link TransactionResultMessageDto}.
+     */
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, TransactionResultMessageDto> kafkaTransactionResultMessageDtoListenerContainerFactory(
+            ConsumerFactory<String, TransactionResultMessageDto> kafkaTransactionResultMessageDtoConsumerFactory) {
+        return kafkaListenerContainerFactory(kafkaTransactionResultMessageDtoConsumerFactory);
+    }
+
+    /**
+     * Создает фабрику потребителей Kafka для обработки сообщений типа {@link TransactionAcceptedMessageDto}.
+     *
+     * @return Фабрика потребителей Kafka для {@link TransactionAcceptedMessageDto}.
+     */
+    @Bean
+    public ConsumerFactory<String, TransactionAcceptedMessageDto> kafkaTransactionAcceptedMessageDtoConsumerFactory() {
+        return consumerFactory(TransactionAcceptedMessageDto.class);
     }
 }

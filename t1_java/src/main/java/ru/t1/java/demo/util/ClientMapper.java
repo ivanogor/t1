@@ -24,6 +24,7 @@ public class ClientMapper {
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
                 .middleName(entity.getMiddleName())
+
                 .build();
     }
 

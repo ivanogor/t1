@@ -3,12 +3,12 @@ package ru.t1.java.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Представляет сущность банковского счета в системе.
@@ -61,16 +61,6 @@ public class Account extends AbstractPersistable<Long> {
     private LocalDateTime createdAt;
 
     /**
-     * Дата и время последнего обновления транзакции.
-     * Это поле автоматически обновляется при изменении записи.
-     * Отображается на столбец "updated_at" в базе данных.
-     */
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-
-    /**
      * Клиент, владеющий этим счетом.
      * Это поле отображается на отношение "многие к одному" с сущностью Client.
      * Счет связан с клиентом через столбец "client_id".
@@ -78,4 +68,15 @@ public class Account extends AbstractPersistable<Long> {
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
+
+    @Column(name = "account_status")
+    @Enumerated(EnumType.STRING)
+    private AccountStatus accountStatus;
+
+    @Builder.Default
+    @Column(name = "account_id", nullable = false, unique = true)
+    private UUID accountId = UUID.randomUUID();
+
+    @Column(name = "frozen_amount", precision = 19, scale = 2)
+    private BigDecimal frozenAmount;
 }

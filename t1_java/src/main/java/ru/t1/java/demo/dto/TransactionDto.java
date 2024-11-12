@@ -10,6 +10,7 @@ import ru.t1.java.demo.model.TransactionStatus;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO (Data Transfer Object) для передачи данных о транзакции.
@@ -44,5 +45,6 @@ public class TransactionDto implements Serializable {
     private TransactionStatus transactionStatus;
 
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+
+    private UUID transactionId;
 }

@@ -17,10 +17,15 @@ public class TransactionMapper {
         Transaction transaction = new Transaction();
         transaction.setAmount(transactionDto.getAmount());
         long id = transactionDto.getAccountId();
-        Account account = accountRepository.findById(transactionDto.getAccountId())
+        Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new AccountNotFoundException(id));
 
         transaction.setAccount(account);
+        Transaction.builder()
+                .amount(transactionDto.getAmount())
+                .account(account)
+                .build();
+
         return transaction;
     }
 
@@ -34,7 +39,7 @@ public class TransactionMapper {
                 .amount(transaction.getAmount())
                 .transactionStatus(transaction.getTransactionStatus())
                 .createdAt(transaction.getCreatedAt())
-                .updatedAt(transaction.getUpdatedAt())
+                .transactionId(transaction.getTransactionId())
                 .build();
     }
 }

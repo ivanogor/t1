@@ -1,7 +1,6 @@
 package ru.t1.java.demo.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,15 +22,15 @@ import java.util.stream.Collectors;
 public class ClientServiceImpl implements ClientService {
     private final ClientRepository repository;
 
-    @PostConstruct
-    void init() {
-        try {
-            List<Client> clients = parseJson();
-            repository.saveAll(clients);
-        } catch (IOException e) {
-            log.error("Ошибка во время обработки записей", e);
-        }
-    }
+//    @PostConstruct
+//    void init() {
+//        try {
+//            List<Client> clients = parseJson();
+//            repository.saveAll(clients);
+//        } catch (IOException e) {
+//            log.error("Ошибка во время обработки записей", e);
+//        }
+//    }
 
     @Override
 //    @LogExecution

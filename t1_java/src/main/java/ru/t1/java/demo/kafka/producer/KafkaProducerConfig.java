@@ -10,6 +10,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import ru.t1.java.demo.dto.AccountDto;
+import ru.t1.java.demo.dto.TransactionAcceptedMessageDto;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.model.DataSourceErrorLog;
 
@@ -48,6 +49,11 @@ public class KafkaProducerConfig {
 
     @Bean
     public KafkaTemplate<String, TransactionDto> transactionKafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
+    }
+
+    @Bean
+    public KafkaTemplate<String, TransactionAcceptedMessageDto> transactionAcceptedMessageKafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

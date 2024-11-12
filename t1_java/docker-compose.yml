@@ -6,7 +6,7 @@ services:
     image: postgres:11.13
     container_name: t1_java_demo
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=0000
@@ -26,6 +26,6 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CREATE_TOPICS: "t1_demo_metrics:1:1,t1_demo_accounts:1:1,t1_demo_transactions:1:1"
+      KAFKA_CREATE_TOPICS: "t1_demo_metrics:1:1,t1_demo_accounts:1:1,t1_demo_transactions:1:1,t1_demo_transaction_result:1:1,t1_demo_transaction_accept:1:1"
     depends_on:
       - zookeeper

@@ -35,6 +35,9 @@ public class AccountMapper {
                 .accountType(account.getAccountType())
                 .balance(account.getBalance())
                 .clientId(clientId)
+                .accountId(account.getAccountId())
+                .accountType(account.getAccountType())
+                .frozenAmount(account.getFrozenAmount())
                 .build();
     }
 }

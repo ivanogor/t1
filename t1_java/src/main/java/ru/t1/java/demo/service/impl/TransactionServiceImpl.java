@@ -2,15 +2,24 @@ package ru.t1.java.demo.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.t1.java.demo.dto.TransactionAcceptedMessageDto;
 import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.exception.AccountStatusIsNotOpenedException;
 import ru.t1.java.demo.exception.TransactionNotFoundException;
+import ru.t1.java.demo.model.Account;
+import ru.t1.java.demo.model.AccountStatus;
 import ru.t1.java.demo.model.Transaction;
+import ru.t1.java.demo.model.TransactionStatus;
+import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.TransactionService;
 import ru.t1.java.demo.util.TransactionMapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,17 +41,38 @@ public class TransactionServiceImpl implements TransactionService {
      */
     private final TransactionRepository transactionRepository;
 
+    private final AccountRepository accountRepository;
+
     /**
      * Маппер для преобразования между DTO и сущностью Transaction.
      */
     private final TransactionMapper transactionMapper;
 
+    private final KafkaTemplate<String, TransactionAcceptedMessageDto> kafkaTemplate;
+
+    @Value("${t1.kafka.topic.transactions_accept}")
+    private String TRANSACTION_ACCEPTED_TOPIC;
+
     @Override
     @Transactional
     public TransactionDto createTransaction(TransactionDto transactionDto) {
         log.info("Создание новой транзакции: начато");
-        Transaction transaction = transactionMapper.toEntity(transactionDto);
-        Transaction createdTransaction = transactionRepository.save(transaction);
+        Transaction transactionToCreate = transactionMapper.toEntity(transactionDto);
+        Account account = transactionToCreate.getAccount();
+        if (account.getAccountStatus() != AccountStatus.OPEN){
+            log.error("Transaction rejected: Account status is not open");
+            throw new AccountStatusIsNotOpenedException();
+        }
+
+        transactionToCreate.setTransactionStatus(TransactionStatus.REQUESTED);
+        Transaction createdTransaction = transactionRepository.save(transactionToCreate);
+
+        BigDecimal newBalance = account.getBalance().add(transactionToCreate.getAmount());
+        account.setBalance(newBalance);
+        accountRepository.save(account);
+
+        sendTransactionAcceptedMessage(account, createdTransaction);
+
         log.info("Создание новой транзакции: завершено, ID: {}", createdTransaction.getId());
         return transactionMapper.toDto(createdTransaction);
     }
@@ -107,5 +137,20 @@ public class TransactionServiceImpl implements TransactionService {
      */
     private void logTransactionNotFound(Long id) {
         log.warn("Транзакция с ID {} не найдена", id);
+    }
+
+    private void sendTransactionAcceptedMessage(Account account, Transaction transaction){
+        TransactionAcceptedMessageDto message = TransactionAcceptedMessageDto.builder()
+                .clientId(account.getClient().getClientId())
+                .accountId(account.getAccountId())
+                .transactionId(transaction.getTransactionId())
+                .timestamp(transaction.getCreatedAt())
+                .amount(transaction.getAmount())
+                .balance(account.getBalance())
+                .build();
+
+        kafkaTemplate.send(TRANSACTION_ACCEPTED_TOPIC, message);
+
+        log.info("Transaction accepted message sent to Kafka topic '{}' for transaction ID: {}", TRANSACTION_ACCEPTED_TOPIC, transaction.getId());
     }
 }

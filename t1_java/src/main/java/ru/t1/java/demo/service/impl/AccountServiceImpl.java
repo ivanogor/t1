@@ -2,7 +2,6 @@ package ru.t1.java.demo.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -48,17 +47,17 @@ public class AccountServiceImpl implements AccountService {
      * Инициализация сервиса.
      * Парсит JSON-файл и сохраняет полученные данные в базу данных.
      */
-    @PostConstruct
-    void init() {
-        try {
-            log.info("Инициализация сервиса: начато чтение и сохранение данных из JSON");
-            List<Account> accounts = parseJson();
-            accountRepository.saveAll(accounts);
-            log.info("Инициализация сервиса: данные успешно сохранены");
-        } catch (IOException e) {
-            log.error("Ошибка во время инициализации сервиса", e);
-        }
-    }
+//    @PostConstruct
+//    void init() {
+//        try {
+//            log.info("Инициализация сервиса: начато чтение и сохранение данных из JSON");
+//            List<Account> accounts = parseJson();
+//            accountRepository.saveAll(accounts);
+//            log.info("Инициализация сервиса: данные успешно сохранены");
+//        } catch (IOException e) {
+//            log.error("Ошибка во время инициализации сервиса", e);
+//        }
+//    }
 
     @Override
     @Transactional

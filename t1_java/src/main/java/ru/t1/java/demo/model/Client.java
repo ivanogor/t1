@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -26,4 +27,7 @@ public class Client extends AbstractPersistable<Long> {
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Account> account;
+
+    @Column(name = "client_id", unique = true, nullable = false)
+    private UUID clientId;
 }

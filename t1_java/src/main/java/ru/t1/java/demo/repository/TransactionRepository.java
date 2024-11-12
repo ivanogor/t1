@@ -4,6 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.t1.java.demo.model.Transaction;
 
+import java.util.Optional;
+import java.util.UUID;
+
 /**
  * Репозиторий для работы с сущностью Transaction.
  * Предоставляет базовые операции CRUD (создание, чтение, обновление, удаление) для транзакций.
@@ -14,4 +17,5 @@ import ru.t1.java.demo.model.Transaction;
  */
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+    Optional<Transaction> findByTransactionId(UUID transactionId);
 }
