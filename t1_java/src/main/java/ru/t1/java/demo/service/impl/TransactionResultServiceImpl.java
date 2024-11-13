@@ -14,13 +14,29 @@ import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.TransactionResultService;
 
+/**
+ * Реализация сервиса для обработки результатов транзакций.
+ * Обрабатывает результаты транзакций, обновляет статусы транзакций и счетов в зависимости от результата.
+ *
+ * @author ivanogor
+ * @version 1.0
+ * @since 7.11.2024
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class TransactionResultServiceImpl implements TransactionResultService {
 
+    /**
+     * Репозиторий для работы с сущностью Account.
+     */
     private final AccountRepository accountRepository;
+
+    /**
+     * Репозиторий для работы с сущностью Transaction.
+     */
     private final TransactionRepository transactionRepository;
+
 
     @Transactional
     public void processTransactionResult(TransactionResultMessageDto message) {
@@ -31,7 +47,7 @@ public class TransactionResultServiceImpl implements TransactionResultService {
 
         switch (message.getStatus()) {
             case ACCEPTED ->
-                transaction.setTransactionStatus(TransactionStatus.ACCEPTED);
+                    transaction.setTransactionStatus(TransactionStatus.ACCEPTED);
             case BLOCKED -> {
                 transaction.setTransactionStatus(TransactionStatus.BLOCKED);
                 account.setAccountStatus(AccountStatus.BLOCKED);

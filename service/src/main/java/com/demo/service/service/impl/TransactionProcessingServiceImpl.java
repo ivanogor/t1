@@ -13,18 +13,39 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Реализация сервиса для обработки транзакций.
+ * Обрабатывает принятые транзакции, проверяет их на соответствие определенным условиям и возвращает результат обработки.
+ *
+ * @author ivanogor
+ * @version 1.0
+ * @since 7.11.2024
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class TransactionProcessingServiceImpl implements TransactionProcessingService {
 
+    /**
+     * Пороговое значение количества транзакций, которое может быть выполнено в течение определенного времени.
+     */
     @Value("${t1.transaction.threshold.count}")
     private int transactionThresholdCount;
 
+    /**
+     * Временной интервал (в секундах), в течение которого проверяется количество транзакций.
+     */
     @Value("${t1.transaction.threshold.time}")
     private int transactionThresholdTime;
 
+    /**
+     * Карта для хранения количества транзакций для каждого клиента и счета.
+     */
     private final Map<String, Integer> transactionCountMap = new ConcurrentHashMap<>();
+
+    /**
+     * Карта для хранения времени последней транзакции для каждого клиента и счета.
+     */
     private final Map<String, LocalDateTime> transactionTimeMap = new ConcurrentHashMap<>();
 
     @Override
@@ -32,7 +53,6 @@ public class TransactionProcessingServiceImpl implements TransactionProcessingSe
         String key = message.getClientId() + "_" + message.getAccountId();
         LocalDateTime now = LocalDateTime.now();
 
-        // Проверка на превышение порога транзакций
         if (transactionCountMap.containsKey(key)) {
             LocalDateTime lastTransactionTime = transactionTimeMap.get(key);
             if (now.isBefore(lastTransactionTime.plusSeconds(transactionThresholdTime))) {
@@ -50,12 +70,10 @@ public class TransactionProcessingServiceImpl implements TransactionProcessingSe
             transactionTimeMap.put(key, now);
         }
 
-        // Проверка на достаточность баланса
         if (message.getAmount().compareTo(message.getBalance()) > 0) {
             return new TransactionResultMessageDto(message.getTransactionId(), TransactionStatus.REJECTED, message.getAccountId());
         }
 
-        // Если всё ок, статус ACCEPTED
         return new TransactionResultMessageDto(message.getTransactionId(), TransactionStatus.ACCEPTED, message.getAccountId());
     }
 }

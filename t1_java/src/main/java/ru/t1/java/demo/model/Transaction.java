@@ -14,8 +14,8 @@ import java.util.UUID;
  * Этот класс отображается на таблицу "transactions" в базе данных.
  *
  * @author ivanogor
- * @version 1.0
- * @since 30.10.2024
+ * @version 2.0
+ * @since 7.11.2024
  */
 @Entity
 @Builder
@@ -26,6 +26,11 @@ import java.util.UUID;
 @Table(name = "transactions")
 public class Transaction extends AbstractPersistable<Long> {
 
+    /**
+     * Уникальный идентификатор транзакции.
+     * Это поле отображается на столбец "transaction_id" в базе данных.
+     * По умолчанию генерируется новый UUID при создании транзакции.
+     */
     @Builder.Default
     @Column(name = "transaction_id", nullable = false, unique = true)
     private UUID transactionId = UUID.randomUUID();
@@ -55,6 +60,10 @@ public class Transaction extends AbstractPersistable<Long> {
     @JoinColumn(name = "account_id")
     private Account account;
 
+    /**
+     * Статус транзакции.
+     * Это поле отображается на столбец "transaction_status" в базе данных.
+     */
     @Column(name = "transaction_status")
     @Enumerated(EnumType.STRING)
     private TransactionStatus transactionStatus;

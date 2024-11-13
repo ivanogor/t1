@@ -41,6 +41,9 @@ public class TransactionServiceImpl implements TransactionService {
      */
     private final TransactionRepository transactionRepository;
 
+    /**
+     * Репозиторий для работы с сущностью Account.
+     */
     private final AccountRepository accountRepository;
 
     /**
@@ -48,8 +51,14 @@ public class TransactionServiceImpl implements TransactionService {
      */
     private final TransactionMapper transactionMapper;
 
+    /**
+     * Шаблон Kafka для отправки сообщений о принятых транзакциях.
+     */
     private final KafkaTemplate<String, TransactionAcceptedMessageDto> kafkaTemplate;
 
+    /**
+     * Название топика Kafka, в который будут отправляться сообщения о принятых транзакциях.
+     */
     @Value("${t1.kafka.topic.transactions_accept}")
     private String TRANSACTION_ACCEPTED_TOPIC;
 

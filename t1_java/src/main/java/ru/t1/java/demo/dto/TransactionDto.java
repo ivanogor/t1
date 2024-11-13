@@ -14,7 +14,7 @@ import java.util.UUID;
 
 /**
  * DTO (Data Transfer Object) для передачи данных о транзакции.
- * Содержит информацию о сумме транзакции и связанном счете.
+ * Содержит информацию о сумме транзакции, связанном счете, статусе транзакции, времени создания и уникальном идентификаторе транзакции.
  *
  * @author ivanogor
  * @version 1.0
@@ -42,9 +42,18 @@ public class TransactionDto implements Serializable {
      */
     private Long accountId;
 
+    /**
+     * Статус транзакции.
+     */
     private TransactionStatus transactionStatus;
 
+    /**
+     * Время создания транзакции.
+     */
     private LocalDateTime createdAt;
 
+    /**
+     * Уникальный идентификатор транзакции.
+     */
     private UUID transactionId;
 }

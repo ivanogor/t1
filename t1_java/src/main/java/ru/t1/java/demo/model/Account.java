@@ -15,8 +15,8 @@ import java.util.UUID;
  * Этот класс отображается на таблицу "accounts" в базе данных.
  *
  * @author ivanogor
- * @version 1.0
- * @since 30.10.2024
+ * @version 3.0
+ * @since 7.11.2024
  */
 @Entity
 @Builder
@@ -69,14 +69,27 @@ public class Account extends AbstractPersistable<Long> {
     @JoinColumn(name = "client_id")
     private Client client;
 
+    /**
+     * Статус счета.
+     * Это поле отображается на столбец "account_status" в базе данных.
+     */
     @Column(name = "account_status")
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
 
+    /**
+     * Уникальный идентификатор счета.
+     * Это поле отображается на столбец "account_id" в базе данных.
+     * По умолчанию генерируется новый UUID при создании счета.
+     */
     @Builder.Default
     @Column(name = "account_id", nullable = false, unique = true)
     private UUID accountId = UUID.randomUUID();
 
+    /**
+     * Замороженная сумма на счете.
+     * Это поле отображается на столбец "frozen_amount" в базе данных с точностью 19 и масштабом 2.
+     */
     @Column(name = "frozen_amount", precision = 19, scale = 2)
     private BigDecimal frozenAmount;
 }

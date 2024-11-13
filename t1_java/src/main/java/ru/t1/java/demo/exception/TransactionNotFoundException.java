@@ -18,6 +18,10 @@ public class TransactionNotFoundException extends RuntimeException {
         super("Transaction with id " + id + " not found");
     }
 
+    /**
+     * Создает новое исключение.
+     *
+     */
     public TransactionNotFoundException() {
     }
 }

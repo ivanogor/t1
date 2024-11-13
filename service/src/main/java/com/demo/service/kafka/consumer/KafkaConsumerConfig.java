@@ -77,21 +77,41 @@ public class KafkaConsumerConfig {
         return factory;
     }
 
+    /**
+     * Создает фабрику потребителей Kafka для сообщений о результатах транзакций.
+     *
+     * @return Фабрика потребителей Kafka для сообщений о результатах транзакций.
+     */
     @Bean
     public ConsumerFactory<String, TransactionResultMessageDto> kafkaTransactionResultMessageDtoConsumerFactory() {
         return consumerFactory(TransactionResultMessageDto.class);
     }
 
+    /**
+     * Создает фабрику слушателей Kafka для сообщений о результатах транзакций.
+     *
+     * @return Фабрика слушателей Kafka для сообщений о результатах транзакций.
+     */
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, TransactionResultMessageDto> kafkaTransactionResultMessageDtoListenerContainerFactory() {
         return kafkaListenerContainerFactory(kafkaTransactionResultMessageDtoConsumerFactory());
     }
 
+    /**
+     * Создает фабрику потребителей Kafka для сообщений о принятых транзакциях.
+     *
+     * @return Фабрика потребителей Kafka для сообщений о принятых транзакциях.
+     */
     @Bean
     public ConsumerFactory<String, TransactionAcceptedMessageDto> kafkaTransactionAcceptedMessageDtoConsumerFactory() {
         return consumerFactory(TransactionAcceptedMessageDto.class);
     }
 
+    /**
+     * Создает фабрику слушателей Kafka для сообщений о принятых транзакциях.
+     *
+     * @return Фабрика слушателей Kafka для сообщений о принятых транзакциях.
+     */
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, TransactionAcceptedMessageDto> kafkaTransactionAcceptedMessageDtoListenerContainerFactory() {
         return kafkaListenerContainerFactory(kafkaTransactionAcceptedMessageDtoConsumerFactory());
