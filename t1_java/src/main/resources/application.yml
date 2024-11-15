@@ -2,7 +2,7 @@ spring:
   application:
     name: t1-java-demo
   datasource:
-    url: "jdbc:postgresql://localhost:5432/t1_demo"
+    url: "jdbc:postgresql://localhost:5433/t1_demo"
     username: "postgres"
     password: "0000"
     driverClassName: org.postgresql.Driver
@@ -30,3 +30,12 @@ t1:
     topic:
       account_registration: t1_demo_accounts
       transactions_registration: t1_demo_transactions
+      metrics: t1_demo_metrics
+      transactions_result: t1_demo_transaction_result
+      transactions_accept: t1_demo_transaction_accept
+    consumer:
+      properties:
+        session.timeout.ms: 150000
+        max.partition.fetch.bytes: 300000
+        max.poll.records: 1
+        max.poll.interval.ms: 3000

@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: service
+  datasource:
+    url: "jdbc:postgresql://localhost:5433/t1_demo"
+    username: "postgres"
+    password: "0000"
+    driverClassName: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: db/changelog/db.changelog-master.xml
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: t1-demo-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+
+logging:
+  level:
+    ROOT: INFO
+    ru.t1.java.demo.controller.ClientController: DEBUG
+
+t1:
+  scan-path: ru.t1.java.demo
+  transaction:
+    threshold:
+      count: 5
+      time: 60
+  kafka:
+    topic:
+      transactions_result: t1_demo_transaction_result
+      transactions_accept: t1_demo_transaction_accept
+    consumer:
+      properties:
+        session.timeout.ms: 150000
+        max.partition.fetch.bytes: 300000
+        max.poll.records: 1
+        max.poll.interval.ms: 3000
+
+server:
+  port: 8081

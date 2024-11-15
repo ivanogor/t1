@@ -15,11 +15,11 @@ import java.util.List;
 public interface TransactionService {
 
     /**
-     * Сохраняет новую транзакцию в системе.
+     * Создает новую транзакцию.
      *
-     * @param transactionDto транзакция для сохранения
-     * @return сохраненная транзакция
-     */
+     * @param transactionDto DTO с данными для создания транзакции.
+     * @return Созданная транзакция в виде DTO.
+     **/
     TransactionDto createTransaction(TransactionDto transactionDto);
 
     /**

@@ -3,20 +3,22 @@ package ru.t1.java.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import ru.t1.java.demo.model.enums.AccountStatus;
+import ru.t1.java.demo.model.enums.AccountType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Представляет сущность банковского счета в системе.
  * Этот класс отображается на таблицу "accounts" в базе данных.
  *
  * @author ivanogor
- * @version 1.0
- * @since 30.10.2024
+ * @version 3.0
+ * @since 7.11.2024
  */
 @Entity
 @Builder
@@ -61,16 +63,6 @@ public class Account extends AbstractPersistable<Long> {
     private LocalDateTime createdAt;
 
     /**
-     * Дата и время последнего обновления транзакции.
-     * Это поле автоматически обновляется при изменении записи.
-     * Отображается на столбец "updated_at" в базе данных.
-     */
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-
-    /**
      * Клиент, владеющий этим счетом.
      * Это поле отображается на отношение "многие к одному" с сущностью Client.
      * Счет связан с клиентом через столбец "client_id".
@@ -78,4 +70,28 @@ public class Account extends AbstractPersistable<Long> {
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
+
+    /**
+     * Статус счета.
+     * Это поле отображается на столбец "account_status" в базе данных.
+     */
+    @Column(name = "account_status")
+    @Enumerated(EnumType.STRING)
+    private AccountStatus accountStatus;
+
+    /**
+     * Уникальный идентификатор счета.
+     * Это поле отображается на столбец "account_id" в базе данных.
+     * По умолчанию генерируется новый UUID при создании счета.
+     */
+    @Builder.Default
+    @Column(name = "account_id", nullable = false, unique = true)
+    private UUID accountId = UUID.randomUUID();
+
+    /**
+     * Замороженная сумма на счете.
+     * Это поле отображается на столбец "frozen_amount" в базе данных с точностью 19 и масштабом 2.
+     */
+    @Column(name = "frozen_amount", precision = 19, scale = 2)
+    private BigDecimal frozenAmount;
 }

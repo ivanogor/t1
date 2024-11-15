@@ -20,7 +20,6 @@ CREATE TABLE accounts
     account_type VARCHAR(255) NOT NULL,
     balance DECIMAL(19, 2) NOT NULL,
     created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP,
     client_id BIGINT,
     FOREIGN KEY (client_id) REFERENCES client(id) ON DELETE CASCADE
 );
@@ -33,7 +32,6 @@ CREATE TABLE transactions (
                               id BIGINT PRIMARY KEY DEFAULT nextval('transactions_seq'),
                               amount DECIMAL(19, 2) NOT NULL,
                               created_at TIMESTAMP NOT NULL,
-                              updated_at TIMESTAMP,
                               account_id BIGINT,
                               FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
 );

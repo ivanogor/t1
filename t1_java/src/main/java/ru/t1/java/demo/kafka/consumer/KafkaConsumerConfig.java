@@ -12,7 +12,9 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import ru.t1.java.demo.dto.AccountDto;
+import ru.t1.java.demo.dto.TransactionAcceptedMessageDto;
 import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.dto.TransactionResultMessageDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,46 +31,46 @@ import java.util.Map;
 @EnableKafka
 public class KafkaConsumerConfig {
 
-    /**
-     * Адреса серверов Kafka, к которым подключается потребитель.
-     */
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-    /**
-     * Создает конфигурацию потребителя Kafka.
-     *
-     * @return Конфигурация потребителя Kafka.
-     */
+    @Value("${spring.kafka.consumer.group-id}")
+    private String groupId;
+
+    @Value("${t1.kafka.consumer.properties.session.timeout.ms}")
+    private String sessionTimeout;
+
+    @Value("${t1.kafka.consumer.properties.max.partition.fetch.bytes}")
+    private String maxPartitionFetchBytes;
+
+    @Value("${t1.kafka.consumer.properties.max.poll.records}")
+    private String maxPollRecords;
+
+    @Value("${t1.kafka.consumer.properties.max.poll.interval.ms}")
+    private String maxPollIntervalMs;
+
     @Bean
     public Map<String, Object> consumerConfigs() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+
+        props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, sessionTimeout);
+        props.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, maxPartitionFetchBytes);
+        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, maxPollRecords);
+        props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, maxPollIntervalMs);
+
         return props;
     }
 
-    /**
-     * Создает фабрику потребителей Kafka для указанного класса.
-     *
-     * @param clazz Класс, для которого создается фабрика потребителей.
-     * @param <T>   Тип данных, которые будут десериализованы из Kafka.
-     * @return Фабрика потребителей Kafka.
-     */
     @Bean
     public <T> ConsumerFactory<String, T> consumerFactory(Class<T> clazz) {
         return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(), new JsonDeserializer<>(clazz));
     }
 
-    /**
-     * Создает фабрику слушателей Kafka для указанной фабрики потребителей.
-     *
-     * @param consumerFactory Фабрика потребителей Kafka.
-     * @param <T>             Тип данных, которые будут десериализованы из Kafka.
-     * @return Фабрика слушателей Kafka.
-     */
     @Bean
     public <T> ConcurrentKafkaListenerContainerFactory<String, T> kafkaListenerContainerFactory(ConsumerFactory<String, T> consumerFactory) {
         ConcurrentKafkaListenerContainerFactory<String, T> factory = new ConcurrentKafkaListenerContainerFactory<>();
@@ -77,47 +79,41 @@ public class KafkaConsumerConfig {
         return factory;
     }
 
-    /**
-     * Создает фабрику потребителей Kafka для обработки сообщений типа {@link AccountDto}.
-     *
-     * @return Фабрика потребителей Kafka для {@link AccountDto}.
-     */
     @Bean
     public ConsumerFactory<String, AccountDto> consumerAccountFactory() {
         return consumerFactory(AccountDto.class);
     }
 
-    /**
-     * Создает фабрику слушателей Kafka для обработки сообщений типа {@link AccountDto}.
-     *
-     * @param consumerAccountFactory Фабрика потребителей Kafka для {@link AccountDto}.
-     * @return Фабрика слушателей Kafka для {@link AccountDto}.
-     */
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, AccountDto> kafkaAccountListenerContainerFactory(
             ConsumerFactory<String, AccountDto> consumerAccountFactory) {
         return kafkaListenerContainerFactory(consumerAccountFactory);
     }
 
-    /**
-     * Создает фабрику потребителей Kafka для обработки сообщений типа {@link TransactionDto}.
-     *
-     * @return Фабрика потребителей Kafka для {@link TransactionDto}.
-     */
     @Bean
     public ConsumerFactory<String, TransactionDto> consumerTransactionalFactory() {
         return consumerFactory(TransactionDto.class);
     }
 
-    /**
-     * Создает фабрику слушателей Kafka для обработки сообщений типа {@link TransactionDto}.
-     *
-     * @param consumerTransactionalFactory Фабрика потребителей Kafka для {@link TransactionDto}.
-     * @return Фабрика слушателей Kafka для {@link TransactionDto}.
-     */
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, TransactionDto> kafkaTransactionalListenerContainerFactory(
             ConsumerFactory<String, TransactionDto> consumerTransactionalFactory) {
         return kafkaListenerContainerFactory(consumerTransactionalFactory);
+    }
+
+    @Bean
+    public ConsumerFactory<String, TransactionResultMessageDto> kafkaTransactionResultMessageDtoConsumerFactory() {
+        return consumerFactory(TransactionResultMessageDto.class);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, TransactionResultMessageDto> kafkaTransactionResultMessageDtoListenerContainerFactory(
+            ConsumerFactory<String, TransactionResultMessageDto> kafkaTransactionResultMessageDtoConsumerFactory) {
+        return kafkaListenerContainerFactory(kafkaTransactionResultMessageDtoConsumerFactory);
+    }
+
+    @Bean
+    public ConsumerFactory<String, TransactionAcceptedMessageDto> kafkaTransactionAcceptedMessageDtoConsumerFactory() {
+        return consumerFactory(TransactionAcceptedMessageDto.class);
     }
 }

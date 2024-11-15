@@ -5,13 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.t1.java.demo.model.enums.TransactionStatus;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO (Data Transfer Object) для передачи данных о транзакции.
- * Содержит информацию о сумме транзакции и связанном счете.
+ * Содержит информацию о сумме транзакции, связанном счете, статусе транзакции, времени создания и уникальном идентификаторе транзакции.
  *
  * @author ivanogor
  * @version 1.0
@@ -38,4 +41,19 @@ public class TransactionDto implements Serializable {
      * Счет, связанный с транзакцией.
      */
     private Long accountId;
+
+    /**
+     * Статус транзакции.
+     */
+    private TransactionStatus transactionStatus;
+
+    /**
+     * Время создания транзакции.
+     */
+    private LocalDateTime createdAt;
+
+    /**
+     * Уникальный идентификатор транзакции.
+     */
+    private UUID transactionId;
 }

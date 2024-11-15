@@ -5,14 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.t1.java.demo.model.AccountType;
+import ru.t1.java.demo.model.enums.AccountStatus;
+import ru.t1.java.demo.model.enums.AccountType;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * DTO (Data Transfer Object) для передачи данных о банковском счете.
- * Содержит информацию о типе счета, его балансе и идентификаторе клиента.
+ * Содержит информацию о типе счета, его балансе, статусе, идентификаторе клиента и других атрибутах.
  *
  * @author ivanogor
  * @version 2.0
@@ -44,4 +46,19 @@ public class AccountDto implements Serializable {
      * Идентификатор клиента, которому принадлежит счет.
      */
     private Long clientId;
+
+    /**
+     * Статус счета.
+     */
+    private AccountStatus accountStatus;
+
+    /**
+     * Уникальный идентификатор счета.
+     */
+    private UUID accountId;
+
+    /**
+     * Замороженная сумма на счете.
+     */
+    private BigDecimal frozenAmount;
 }

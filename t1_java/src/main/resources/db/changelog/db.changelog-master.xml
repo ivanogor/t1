@@ -14,4 +14,9 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <rollback/>
     </changeSet>
 
+    <changeSet id="update-client, update-account, update-transaction" author="ivanogor">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/11/12-01-changelog-01.sql"/>
+        <rollback/>
+    </changeSet>
+
 </databaseChangeLog>

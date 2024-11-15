@@ -6,6 +6,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
@@ -45,7 +46,8 @@ public class DataSourceErrorAspect {
     /**
      * Имя топика Kafka, в который отправляются логи ошибок.
      */
-    private static final String TOPIC_NAME = "t1_demo_metrics";
+    @Value("${t1.kafka.topic.metrics}")
+    private static String TOPIC_NAME;
 
     /**
      * Тип сообщения для Kafka, указывающий на то, что это метрика источника данных.
@@ -77,6 +79,9 @@ public class DataSourceErrorAspect {
         } catch (Exception ex) {
             log.error("Failed to send message to Kafka", ex);
             saveErrorLogToDataBase(errorLog);
+        }
+        finally {
+            kafkaTemplate.flush();
         }
     }
 
