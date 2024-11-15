@@ -36,6 +36,36 @@ public class KafkaConsumerConfig {
     private String bootstrapServers;
 
     /**
+     * Идентификатор группы потребителя Kafka.
+     */
+    @Value("${spring.kafka.consumer.group-id}")
+    private String groupId;
+
+    /**
+     * Тайм-аут сессии потребителя Kafka.
+     */
+    @Value("${t1.kafka.consumer.properties.session.timeout.ms}")
+    private String sessionTimeout;
+
+    /**
+     * Максимальный размер данных, которые могут быть получены от одного раздела.
+     */
+    @Value("${t1.kafka.consumer.properties.max.partition.fetch.bytes}")
+    private String maxPartitionFetchBytes;
+
+    /**
+     * Максимальное количество записей, которые могут быть получены за один вызов poll().
+     */
+    @Value("${t1.kafka.consumer.properties.max.poll.records}")
+    private String maxPollRecords;
+
+    /**
+     * Максимальный интервал времени между вызовами poll().
+     */
+    @Value("${t1.kafka.consumer.properties.max.poll.interval.ms}")
+    private String maxPollIntervalMs;
+
+    /**
      * Создает конфигурацию потребителя Kafka.
      *
      * @return Конфигурация потребителя Kafka.
@@ -44,9 +74,15 @@ public class KafkaConsumerConfig {
     public Map<String, Object> consumerConfigs() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+        props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, sessionTimeout);
+        props.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, maxPartitionFetchBytes);
+        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, maxPollRecords);
+        props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, maxPollIntervalMs);
+
         return props;
     }
 

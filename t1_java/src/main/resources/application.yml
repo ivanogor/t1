@@ -33,3 +33,9 @@ t1:
       metrics: t1_demo_metrics
       transactions_result: t1_demo_transaction_result
       transactions_accept: t1_demo_transaction_accept
+    consumer:
+      properties:
+        session.timeout.ms: 150000
+        max.partition.fetch.bytes: 300000
+        max.poll.records: 1
+        max.poll.interval.ms: 3000
