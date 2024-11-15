@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import ru.t1.java.demo.model.enums.AccountStatus;
+import ru.t1.java.demo.model.enums.AccountType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

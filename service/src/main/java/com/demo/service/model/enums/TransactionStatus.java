@@ -1,4 +1,4 @@
-package com.demo.service.model;
+package com.demo.service.model.enums;
 
 /**
  * Перечисление, представляющее статусы транзакций.

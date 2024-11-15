@@ -1,6 +1,6 @@
 package com.demo.service.dto;
 
-import com.demo.service.model.TransactionStatus;
+import com.demo.service.model.enums.TransactionStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

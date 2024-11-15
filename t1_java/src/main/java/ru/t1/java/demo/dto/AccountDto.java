@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.t1.java.demo.model.AccountStatus;
-import ru.t1.java.demo.model.AccountType;
+import ru.t1.java.demo.model.enums.AccountStatus;
+import ru.t1.java.demo.model.enums.AccountType;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

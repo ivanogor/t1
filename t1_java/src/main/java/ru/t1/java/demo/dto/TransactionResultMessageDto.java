@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.t1.java.demo.model.TransactionStatus;
+import ru.t1.java.demo.model.enums.TransactionStatus;
 
 import java.io.Serializable;
 import java.util.UUID;

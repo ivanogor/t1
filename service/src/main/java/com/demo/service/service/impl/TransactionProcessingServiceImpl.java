@@ -2,7 +2,7 @@ package com.demo.service.service.impl;
 
 import com.demo.service.dto.TransactionAcceptedMessageDto;
 import com.demo.service.dto.TransactionResultMessageDto;
-import com.demo.service.model.TransactionStatus;
+import com.demo.service.model.enums.TransactionStatus;
 import com.demo.service.service.TransactionProcessingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
