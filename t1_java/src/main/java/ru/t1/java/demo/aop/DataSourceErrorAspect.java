@@ -80,6 +80,9 @@ public class DataSourceErrorAspect {
             log.error("Failed to send message to Kafka", ex);
             saveErrorLogToDataBase(errorLog);
         }
+        finally {
+            kafkaTemplate.flush();
+        }
     }
 
     /**

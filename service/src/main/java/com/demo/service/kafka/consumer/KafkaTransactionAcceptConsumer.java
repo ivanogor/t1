@@ -54,7 +54,15 @@ public class KafkaTransactionAcceptConsumer {
         TransactionResultMessageDto resultMessage = transactionProcessingService.processTransaction(message);
 
         // Отправка результата обработки в топик Kafka
-        transactionResultKafkaTemplate.send(transactionResultTopic, resultMessage);
-        log.info("Sent transaction result message: {}", resultMessage);
+        try {
+            transactionResultKafkaTemplate.send(transactionResultTopic, resultMessage);
+            log.info("Sent transaction result message: {}", resultMessage);
+        }
+        catch (Exception e){
+            log.error("Error sending transaction accepted message: {}", e.getMessage());
+        }
+        finally {
+            transactionResultKafkaTemplate.flush();
+        }
     }
 }
