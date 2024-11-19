@@ -15,8 +15,8 @@ import java.util.List;
  * Предоставляет REST API для создания, чтения, обновления и удаления счетов.
  *
  * @author ivanogor
- * @version 1.0
- * @since 30.10.2024
+ * @version 2.0
+ * @since 7.11.2024
  */
 @RestController
 @RequiredArgsConstructor
@@ -42,12 +42,12 @@ public class AccountController {
         return ResponseEntity.ok(createdAccount);
     }
 
-    /**
-     * Получает банковский счет по его идентификатору.
-     *
-     * @param id Идентификатор счета.
-     * @return Найденный счет или 404 ошибка, если счет не найден.
-     */
+/**
+ * Получает банковский счет по его идентификатору.
+ *
+ * @param id Идентификатор счета.
+ * @return Найденный счет или 404 ошибка, если счет не найден.
+ */
     @GetMapping("/{id}")
     public ResponseEntity<AccountDto> getAccountById(@PathVariable Long id) {
         log.info("Получен запрос на получение счета по ID: {}", id);

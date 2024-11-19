@@ -2,13 +2,22 @@ spring:
   application:
     name: t1-java-demo
   datasource:
-    url: "jdbc:postgresql://localhost:5432/t1_demo"
+    url: "jdbc:postgresql://localhost:5433/t1_demo"
     username: "postgres"
     password: "0000"
     driverClassName: org.postgresql.Driver
   liquibase:
     enabled: true
     change-log: db/changelog/db.changelog-master.xml
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: t1-demo-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
 
 logging:
   level:
@@ -17,3 +26,13 @@ logging:
 
 t1:
   scan-path: ru.t1.java.demo
+  kafka:
+    message-type:
+      data-source: DATA_SOURCE
+      metric: METRICS
+    topic:
+      account_registration: t1_demo_accounts
+      transactions_registration: t1_demo_transactions
+      metrics: t1_demo_metrics
+    properties:
+      threshold.time: 1000

@@ -3,6 +3,7 @@ package ru.t1.java.demo.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.exception.TransactionNotFoundException;
 import ru.t1.java.demo.model.Transaction;
@@ -31,13 +32,19 @@ public class TransactionServiceImpl implements TransactionService {
      */
     private final TransactionRepository transactionRepository;
 
+    /**
+     * Маппер для преобразования между DTO и сущностью Transaction.
+     */
+    private final TransactionMapper transactionMapper;
+
     @Override
+    @Transactional
     public TransactionDto createTransaction(TransactionDto transactionDto) {
         log.info("Создание новой транзакции: начато");
-        Transaction transaction = TransactionMapper.toEntity(transactionDto);
+        Transaction transaction = transactionMapper.toEntity(transactionDto);
         Transaction createdTransaction = transactionRepository.save(transaction);
         log.info("Создание новой транзакции: завершено, ID: {}", createdTransaction.getId());
-        return TransactionMapper.toDto(createdTransaction);
+        return transactionMapper.toDto(createdTransaction);
     }
 
     @Override
@@ -50,7 +57,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
         Transaction foundTransaction = optionalFoundTransaction.get();
         log.info("Транзакция с ID {} успешно получена", id);
-        return TransactionMapper.toDto(foundTransaction);
+        return transactionMapper.toDto(foundTransaction);
     }
 
     @Override
@@ -58,13 +65,14 @@ public class TransactionServiceImpl implements TransactionService {
         log.info("Получение всех транзакций: начато");
         List<TransactionDto> transactions = transactionRepository.findAll()
                 .stream()
-                .map(TransactionMapper::toDto)
+                .map(transactionMapper::toDto)
                 .toList();
         log.info("Получение всех транзакций: завершено, найдено {} транзакций", transactions.size());
         return transactions;
     }
 
     @Override
+    @Transactional
     public void deleteTransaction(Long id) {
         log.info("Удаление транзакции по ID: {}", id);
         if (!transactionRepository.existsById(id)) {
@@ -76,6 +84,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public TransactionDto updateTransaction(Long id, TransactionDto transactionDto) {
         log.info("Обновление транзакции по ID: {}", id);
         Optional<Transaction> existingOptionalTransaction = transactionRepository.findById(id);
@@ -88,7 +97,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         Transaction updatedTransaction = transactionRepository.save(existingTransaction);
         log.info("Транзакция с ID {} успешно обновлена", id);
-        return TransactionMapper.toDto(updatedTransaction);
+        return transactionMapper.toDto(updatedTransaction);
     }
 
     /**

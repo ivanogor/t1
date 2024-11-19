@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.t1.java.demo.model.Account;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,7 +15,7 @@ import java.math.BigDecimal;
  *
  * @author ivanogor
  * @version 1.0
- * @since 30.10.2024
+ * @since 7.11.2024
  */
 @Data
 @AllArgsConstructor
@@ -38,5 +37,5 @@ public class TransactionDto implements Serializable {
     /**
      * Счет, связанный с транзакцией.
      */
-    private Account account;
+    private Long accountId;
 }
