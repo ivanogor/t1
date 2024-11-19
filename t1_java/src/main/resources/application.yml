@@ -34,3 +34,5 @@ t1:
       account_registration: t1_demo_accounts
       transactions_registration: t1_demo_transactions
       metrics: t1_demo_metrics
+    properties:
+      threshold.time: 1000

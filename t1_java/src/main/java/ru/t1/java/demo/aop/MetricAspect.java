@@ -37,7 +37,8 @@ public class MetricAspect {
     /**
      * Порог времени выполнения метода, после которого метрика отправляется в Kafka.
      */
-    private static final long executionTimeThreshold = 1000;
+    @Value("${t1.kafka.properties.threshold.time}")
+    private static long executionTimeThreshold;
 
     /**
      * Имя топика Kafka, в который отправляются метрики.
