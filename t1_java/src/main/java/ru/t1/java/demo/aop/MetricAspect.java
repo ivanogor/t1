@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
@@ -41,12 +42,14 @@ public class MetricAspect {
     /**
      * Имя топика Kafka, в который отправляются метрики.
      */
-    private static final String TOPIC_NAME = "t1_demo_metrics";
+    @Value("${t1.kafka.topic.metrics}")
+    private static String TOPIC_NAME;
 
     /**
      * Тип сообщения для Kafka, указывающий на то, что это метрика.
      */
-    private static final String MESSAGE_TYPE_METRICS = "METRICS";
+    @Value("${t1.kafka.message-type.metric}")
+    private static String MESSAGE_TYPE_METRICS;
 
     /**
      * Совет, который выполняется вокруг методов, помеченных аннотацией {@link Metric}.

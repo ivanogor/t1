@@ -6,6 +6,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
@@ -45,12 +46,14 @@ public class DataSourceErrorAspect {
     /**
      * Имя топика Kafka, в который отправляются логи ошибок.
      */
-    private static final String TOPIC_NAME = "t1_demo_metrics";
+    @Value("${t1.kafka.topic.metrics}")
+    private static String TOPIC_NAME;
 
     /**
      * Тип сообщения для Kafka, указывающий на то, что это метрика источника данных.
      */
-    private static final String MESSAGE_TYPE_METRICS = "DATA_SOURCE";
+    @Value("${t1.kafka.message-type.data-source}")
+    private static String MESSAGE_TYPE_METRICS;
 
     /**
      * Точка среза, соответствующая всем методам в пакете 'ru.t1.java.demo'.
