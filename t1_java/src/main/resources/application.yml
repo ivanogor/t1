@@ -19,6 +19,14 @@ spring:
       properties:
         spring.json.trusted.packages: "*"
 
+security:
+  token: 53A73E5F1C4E0A2D3B5F2D784E6A1B423D6F247D1F6E5C3A596D635A75327855
+  expiration: 86400000
+
+client:
+  service:
+    url: http://localhost:8081
+
 logging:
   level:
     ROOT: INFO
@@ -39,3 +47,11 @@ t1:
         max.partition.fetch.bytes: 300000
         max.poll.records: 1
         max.poll.interval.ms: 3000
+  client:
+    service:
+      url: http://localhost:8081
+
+
+transaction:
+  rejected:
+    threshold: 5

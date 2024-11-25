@@ -19,4 +19,14 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <rollback/>
     </changeSet>
 
+    <changeSet id="create users table" author="ivanogor">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/11/21-01-changelog-01.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="added status column to client table" author="ivanogor">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/11/22-01-changelog-01.sql"/>
+        <rollback/>
+    </changeSet>
+
 </databaseChangeLog>
