@@ -1,6 +1,6 @@
-package ru.t1.java.demo.service;
+package com.ivanogor.t1metricsstarter.service;
 
-import ru.t1.java.demo.model.DataSourceErrorLog;
+import com.ivanogor.t1metricsstarter.model.DataSourceErrorLog;
 
 /**
  * Интерфейс сервиса для работы с сущностью DataSourceErrorLog.

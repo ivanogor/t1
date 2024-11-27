@@ -1,4 +1,4 @@
-package ru.t1.java.demo.aop;
+package com.ivanogor.t1metricsstarter.aop;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  * @since 7.11.2024
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target(ElementType.PACKAGE)
 public @interface Metric {
     /**
      * Значение метрики.

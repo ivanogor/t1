@@ -50,7 +50,12 @@ t1:
   client:
     service:
       url: http://localhost:8081
-
+  metrics:
+    enabled: true
+    database:
+      enabled: true
+  time:
+    threshold: 10000
 
 transaction:
   rejected:

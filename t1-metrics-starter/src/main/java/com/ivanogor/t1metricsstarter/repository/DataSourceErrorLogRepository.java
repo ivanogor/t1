@@ -1,8 +1,9 @@
-package ru.t1.java.demo.repository;
+package com.ivanogor.t1metricsstarter.repository;
 
+
+import com.ivanogor.t1metricsstarter.model.DataSourceErrorLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.t1.java.demo.model.DataSourceErrorLog;
 
 /**
  * Репозиторий для работы с сущностью DataSourceErrorLog.

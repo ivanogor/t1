@@ -1,11 +1,11 @@
-package ru.t1.java.demo.service.impl;
+package com.ivanogor.t1metricsstarter.service.impl;
 
+import com.ivanogor.t1metricsstarter.model.DataSourceErrorLog;
+import com.ivanogor.t1metricsstarter.repository.DataSourceErrorLogRepository;
+import com.ivanogor.t1metricsstarter.service.DataSourceErrorLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.t1.java.demo.model.DataSourceErrorLog;
-import ru.t1.java.demo.repository.DataSourceErrorLogRepository;
-import ru.t1.java.demo.service.DataSourceErrorLogService;
 
 /**
  * Реализация сервиса для работы с логами ошибок источников данных.

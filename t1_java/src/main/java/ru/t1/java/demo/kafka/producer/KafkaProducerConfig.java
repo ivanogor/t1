@@ -12,7 +12,6 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.TransactionAcceptedMessageDto;
 import ru.t1.java.demo.dto.TransactionDto;
-import ru.t1.java.demo.model.DataSourceErrorLog;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,16 +55,6 @@ public class KafkaProducerConfig {
      */
     @Bean
     public KafkaTemplate<String, AccountDto> accountDtoKafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
-    }
-
-    /**
-     * Создает KafkaTemplate для отправки сообщений об ошибках источника данных.
-     *
-     * @return KafkaTemplate для отправки сообщений об ошибках источника данных.
-     */
-    @Bean
-    public KafkaTemplate<String, DataSourceErrorLog> dataSourceErrorLogKafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
