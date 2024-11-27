@@ -3,6 +3,7 @@ package ru.t1.java.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import ru.t1.java.demo.model.enums.ClientStatus;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,4 +31,8 @@ public class Client extends AbstractPersistable<Long> {
 
     @Column(name = "client_id", unique = true, nullable = false)
     private UUID clientId;
+
+    @Column(name = "client_status")
+    @Enumerated(EnumType.STRING)
+    private ClientStatus status;
 }
