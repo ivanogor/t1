@@ -1,4 +1,4 @@
-package ru.t1.java.demo.aop;
+package com.ivanogor.t1metricsstarter.aop;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,8 @@ public class MetricAspect {
     /**
      * Порог времени выполнения метода, после которого метрика отправляется в Kafka.
      */
-    private static final long executionTimeThreshold = 1000;
+    @Value("t1.time.threshold")
+    private static long executionTimeThreshold;
 
     /**
      * Имя топика Kafka, в который отправляются метрики.

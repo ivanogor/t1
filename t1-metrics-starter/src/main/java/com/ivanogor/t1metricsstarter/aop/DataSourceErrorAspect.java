@@ -1,5 +1,7 @@
-package ru.t1.java.demo.aop;
+package com.ivanogor.t1metricsstarter.aop;
 
+import com.ivanogor.t1metricsstarter.model.DataSourceErrorLog;
+import com.ivanogor.t1metricsstarter.service.DataSourceErrorLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -12,8 +14,6 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.model.DataSourceErrorLog;
-import ru.t1.java.demo.service.DataSourceErrorLogService;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -57,7 +57,7 @@ public class DataSourceErrorAspect {
     /**
      * Точка среза, соответствующая всем методам в пакете 'ru.t1.java.demo'.
      */
-    @Pointcut("within(ru.t1.java.demo.*)")
+    @Pointcut("within(com.ivanogor.t1metricsstarter.aop.DataSourceLogging)")
     public void loggingMethods() {
     }
 

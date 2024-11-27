@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.ivanogor.t1metricsstarter.T1MetricsAutoConfiguration

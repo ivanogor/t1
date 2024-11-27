@@ -1,4 +1,4 @@
-package ru.t1.java.demo.model;
+package com.ivanogor.t1metricsstarter.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -6,14 +6,6 @@ import jakarta.persistence.Table;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-/**
- * Представляет сущность журнала ошибок источника данных в системе.
- * Этот класс отображается на таблицу "data_source_error_logs" в базе данных.
- *
- * @author ivanogor
- * @version 1.0
- * @since 30.10.24
- */
 @Entity
 @Builder
 @AllArgsConstructor
