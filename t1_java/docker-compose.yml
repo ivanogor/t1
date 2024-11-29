@@ -1,4 +1,4 @@
-version: '1.0'
+version: '3.8'
 
 services:
 
@@ -29,3 +29,35 @@ services:
       KAFKA_CREATE_TOPICS: "t1_demo_metrics:1:1,t1_demo_accounts:1:1,t1_demo_transactions:1:1,t1_demo_transaction_result:1:1,t1_demo_transaction_accept:1:1"
     depends_on:
       - zookeeper
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+    depends_on:
+      - prometheus
+
+  postgres-service2:
+    image: postgres:11.13
+    container_name: service2
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=0000
+      - POSTGRES_DB=service2
+
+networks:
+  default:
+    name: t1_java_demo_network

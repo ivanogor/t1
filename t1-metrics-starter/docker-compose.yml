@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  h2:
+    image: oscarfonts/h2
+    ports:
+      - "1521:1521"  # JDBC port
+      - "81:81"      # Web console port
+    environment:
+      - H2_OPTIONS=-ifNotExists
+    volumes:
+      - h2-data:/opt/h2-data
+
+volumes:
+  h2-data:
