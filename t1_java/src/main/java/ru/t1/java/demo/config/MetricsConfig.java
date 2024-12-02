@@ -1,4 +1,4 @@
-package ru.t1.java.demo;
+package ru.t1.java.demo.config;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
