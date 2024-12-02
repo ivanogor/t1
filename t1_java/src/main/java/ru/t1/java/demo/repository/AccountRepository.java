@@ -20,6 +20,6 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
     long countAccountByAccountStatus(AccountStatus status);
-    @Query(value = "SELECT * FROM account WHERE account_status = 'BLOCKED' LIMIT :limit", nativeQuery = true)
+    @Query(value = "SELECT * FROM accounts WHERE account_status = 'BLOCKED' LIMIT :limit", nativeQuery = true)
     List<Account> findTopMBlockedAccounts(@Param("limit") int limit);
 }
