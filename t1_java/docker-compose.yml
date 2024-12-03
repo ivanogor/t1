@@ -57,7 +57,3 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=0000
       - POSTGRES_DB=service2
-
-networks:
-  default:
-    name: t1_java_demo_network

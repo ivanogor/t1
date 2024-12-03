@@ -64,8 +64,19 @@ t1:
     account: 10
   time:
     threshold: 10000
-    fixed_rate: 60000
+    fixed_rate: 6000
 
 transaction:
   rejected:
     threshold: 5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true

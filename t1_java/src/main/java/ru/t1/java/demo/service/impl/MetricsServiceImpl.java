@@ -1,5 +1,6 @@
 package ru.t1.java.demo.service.impl;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Metrics;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,18 +15,20 @@ import ru.t1.java.demo.service.MetricsService;
 @RequiredArgsConstructor
 public class MetricsServiceImpl implements MetricsService {
     private final ClientRepository clientRepository;
-
     private final AccountRepository accountRepository;
+    private final MeterRegistry meterRegistry;
 
 
     @Override
     @Scheduled(fixedRateString = "${t1.time.fixed_rate}")
     public void updateMetrics() {
         long blackListedClientCount = clientRepository.countClientsByStatus(ClientStatus.BLACKLISTED);
-
         long arrestedAccountCount = accountRepository.countAccountByAccountStatus(AccountStatus.ARRESTED);
 
-        Metrics.gauge("blacklisted_clients", blackListedClientCount);
-        Metrics.gauge("arrested_accounts", arrestedAccountCount);
+        meterRegistry.gauge("blacklisted_clients", blackListedClientCount);
+        meterRegistry.gauge("arrested_accounts", arrestedAccountCount);
+
+        System.out.println("blacklisted_clients: " + blackListedClientCount);
+        System.out.println("arrested_accounts: " + arrestedAccountCount);
     }
 }
