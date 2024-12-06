@@ -4,7 +4,7 @@ services:
 
   postgres:
     image: postgres:11.13
-    container_name: t1_java_demo
+    container_name: postgres_service
     ports:
       - "5433:5432"
     environment:
@@ -57,3 +57,10 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=0000
       - POSTGRES_DB=service2
+  t1-java-demo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    container_name: t1-java-demo
