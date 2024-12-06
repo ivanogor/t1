@@ -1,11 +1,21 @@
 spring:
+  datasource:
+    url: "jdbc:postgresql://localhost:5435/starter"
+    username: "postgres"
+    password: "0000"
+    driverClassName: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   liquibase:
-    change-log: classpath:/db/changelog/db.changelog-master.xml
-  kafka:
-    bootstrap-servers: localhost:9092
-    topic:
-      metrics: metrics-topic
+    change-log: classpath:/db/changelog/db.changelog-master-metric.xml
 
+liquibase:
+  searchPath: classpath:/db/changelog
 t1:
   metrics:
     enabled: true

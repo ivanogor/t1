@@ -8,7 +8,7 @@ spring:
     driverClassName: org.postgresql.Driver
   liquibase:
     enabled: true
-    change-log: db/changelog/db.changelog-master.xml
+    change-log: classpath:/db/changelog/db.changelog-master.xml
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
@@ -18,6 +18,9 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "*"
+
+liquibase:
+  searchPath: classpath:/db/changelog
 
 security:
   token: 53A73E5F1C4E0A2D3B5F2D784E6A1B423D6F247D1F6E5C3A596D635A75327855
@@ -48,15 +51,32 @@ t1:
         max.poll.records: 1
         max.poll.interval.ms: 3000
   client:
-    service:
+    service2:
       url: http://localhost:8081
+    service3:
+      url: http://localhost:8085
   metrics:
     enabled: true
     database:
       enabled: true
+  limit:
+    client: 10
+    account: 10
   time:
     threshold: 10000
+    fixed_rate: 6000
 
 transaction:
   rejected:
     threshold: 5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true

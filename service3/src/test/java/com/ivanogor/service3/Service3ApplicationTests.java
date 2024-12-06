@@ -1,10 +1,10 @@
-package ru.t1.java.demo;
+package com.ivanogor.service3;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class T1JavaDemoApplicationTests {
+class Service3ApplicationTests {
 
     @Test
     void contextLoads() {

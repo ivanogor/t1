@@ -22,7 +22,7 @@ public class ClientStatusServiceImpl implements ClientStatusService {
 
     private final WebClient.Builder webClientBuilder;
 
-    @Value("${t1.client.service.url}")
+    @Value("${t1.client.service2.url}")
     private String clientServiceUrl;
 
     /**
