@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  postgres:
+  service1:
     image: postgres:11.13
-    container_name: t1_java_demo
+    container_name: service-1
     ports:
       - "5433:5432"
     environment:
@@ -66,6 +66,18 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=0000
       - POSTGRES_DB=service2
+    networks:
+      - app-network
+
+  postgres-starter:
+    image: postgres:11.13
+    container_name: service2
+    ports:
+      - "5435:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=0000
+      - POSTGRES_DB=starter
     networks:
       - app-network
 

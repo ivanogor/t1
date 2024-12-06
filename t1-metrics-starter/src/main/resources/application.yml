@@ -1,8 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost:1521/mem:testdb
-    username: sa
-    password: password
+    url: "jdbc:postgresql://localhost:5435/starter"
+    username: "postgres"
+    password: "0000"
+    driverClassName: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
