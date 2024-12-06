@@ -4,8 +4,8 @@ services:
   h2:
     image: oscarfonts/h2
     ports:
-      - "1521:1521"  # JDBC port
-      - "81:81"      # Web console port
+      - "1521:1521"
+      - "81:81"
     environment:
       - H2_OPTIONS=-ifNotExists
     volumes:
