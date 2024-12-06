@@ -4,7 +4,7 @@ services:
 
   postgres:
     image: postgres:11.13
-    container_name: postgres_service
+    container_name: service1
     ports:
       - "5433:5432"
     environment:
@@ -64,3 +64,9 @@ services:
     ports:
       - "8080:8080"
     container_name: t1-java-demo
+    depends_on:
+      - postgres
+      - kafka
+      - prometheus
+      - grafana
+      - postgres-service2
